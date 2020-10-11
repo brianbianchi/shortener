@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"math/rand"
@@ -7,7 +7,8 @@ import (
 
 var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
-func randSeq(n int) string {
+// RandSeq creates a random sequence of characters for the URL code
+func RandSeq(n int) string {
 	b := make([]rune, n)
 	for i := range b {
 		b[i] = letters[rand.Intn(len(letters))]
@@ -15,8 +16,8 @@ func randSeq(n int) string {
 	return string(b)
 }
 
-// Validate URL
-func isURL(str string) bool {
+// IsURL validates a URL object
+func IsURL(str string) bool {
 	u, err := url.Parse(str)
 	return err == nil && u.Scheme != "" && u.Host != ""
 }
