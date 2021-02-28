@@ -13,18 +13,11 @@ function redirect(code) {
     fetch(url, { method: 'GET', mode: 'cors', redirect: 'follow'})
     .then(response => {
         response.json();
-        // HTTP 301 response
+        // HTTP 303 response
     })
     .catch(function(err) {
         console.info(err + " url: " + url);
     });
-
-    // fetch(url, {redirect: 'follow'})
-    // .then(response => response.json())
-    // .then(json => {
-    //     console.log(json);
-    // });
-    
 }
 
 function generateTableHead(table, data) {
@@ -51,7 +44,6 @@ function generateTable(table, data) {
 
 function sendLink() {
     const link = document.getElementById('link').value;
-    console.log(link);
     const bodyObj = {
         "link": link
     };
@@ -76,7 +68,6 @@ function sendLink() {
 fetch(apiBaseUrl + '/api/urls')
     .then(response => response.json())
     .then(json => {
-        console.log(json);
         let table = document.querySelector("table");
         let data = Object.keys(json[0]);
         generateTableHead(table, data);
