@@ -1,12 +1,13 @@
 # shortener
 API that generates a shorter, more shareable link.
 
-### endpoints
-* `GET /api/redirect/{code}`
-  * redirects to the associated long URL.
-* `GET /api/urls`
-  * returns all long URLs and related short codes.
-  * response:
+## `GET` /api/redirect/{code}
+Redirects to the associated long URL.
+
+## `GET` /api/urls
+Returns all long URLs and related short codes.
+
+Response
 ```json
 [
         {
@@ -25,9 +26,11 @@ API that generates a shorter, more shareable link.
         }
 ]
 ```
-* `GET /api/urls/{code}`
-  * returns all information related to a short code.
-  * response:
+
+## `GET` /api/urls/{code}
+Returns all information related to a short code.
+
+Response:
 ```json
 {
         "link": "https://www.w3schools.com/sql/sql_insert.asp",
@@ -37,15 +40,18 @@ API that generates a shorter, more shareable link.
         "last_visited": "2010-10-19T10:23:54Z"
 }
 ```
-* `POST /api/urls/{code}`
-  * creates new transaction
-  * body:
+
+## `POST` /api/urls
+Creates new short URL.
+
+Body
 ```json
 {
 	    "link": "http://youtube.com/ppoyijortujyio/khfdjhalkjfhlgskl?playback=20s"
 }
 ```
-  * response:
+
+Response
 ```json
 {
         "link": "http://youtube.com/ppoyijortujyio/khfdjhalkjfhlgskl?playback=20s",
