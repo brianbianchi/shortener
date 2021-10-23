@@ -21,8 +21,11 @@ var db *sql.DB
 func init() {
 	var err error
 	// todo env vars
-	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		username, password, hostname, hostPort, databaseName)
+	// connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
+	// 	username, password, hostname, hostPort, databaseName)
+	connectionString := "user=app_user dbname=shorten sslmode=disable"
+
+	fmt.Println(connectionString)
 
 	db, err = sql.Open("postgres", connectionString)
 	if err != nil {

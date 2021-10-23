@@ -6,18 +6,18 @@ const myParam = urlParams.get('q');
 if (myParam) {
     redirect(myParam);
 }
+getShortens();
 
 function redirect(code) {
-    const url = apiBaseUrl + '/api/redirect/' + code;
+    const url = apiBaseUrl + '/api/urls/' + code;
 
-    fetch(url, { method: 'GET', mode: 'cors', redirect: 'follow'})
-    .then(response => {
-        response.json();
-        // HTTP 303 response
-    })
-    .catch(function(err) {
-        console.info(err + " url: " + url);
-    });
+    fetch(url, { method: 'GET' })
+        .then(response => response.json())
+        .then(json => {
+            if (json.link) {
+                window.location.href = json.link;
+            }
+        });
 }
 
 function generateTableHead(table, data) {
@@ -65,12 +65,13 @@ function sendLink() {
         });
 }
 
-fetch(apiBaseUrl + '/api/urls')
-    .then(response => response.json())
-    .then(json => {
-        let table = document.querySelector("table");
-        let data = Object.keys(json[0]);
-        generateTableHead(table, data);
-        generateTable(table, json);
-    });
-
+function getShortens() {
+    fetch(apiBaseUrl + '/api/urls')
+        .then(response => response.json())
+        .then(json => {
+            let table = document.querySelector("table");
+            let data = Object.keys(json[0]);
+            generateTableHead(table, data);
+            generateTable(table, json);
+        });
+}

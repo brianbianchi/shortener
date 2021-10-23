@@ -11,8 +11,9 @@ import (
 )
 
 func Redirect(w http.ResponseWriter, r *http.Request) {
-	// w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-	// w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type,access-control-allow-origin, access-control-allow-headers")
+	w.Header().Set("Access-Control-Expose-Headers", "Location")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
 	url := models.URL{}
@@ -31,14 +32,14 @@ func Redirect(w http.ResponseWriter, r *http.Request) {
 	urlReceived.LastVisited = time.Now()
 	err = url.IncrementURLVisitCount(urlReceived)
 	if err != nil {
-		http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+		http.Error(w, http.StatusText(500), http.StatusSeeOther)
 		return
 	}
-	http.Redirect(w, r, urlReceived.Link, http.StatusSeeOther)
+	http.Redirect(w, r, urlReceived.Link, http.StatusFound)
 }
 
 func GetUrls(w http.ResponseWriter, r *http.Request) {
-	// w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8000")
 	w.Header().Set("Content-Type", "application/json")
 	url := models.URL{}
 
@@ -51,6 +52,7 @@ func GetUrls(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetURLByCode(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8000")
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
 	url := models.URL{}
@@ -68,6 +70,7 @@ func GetURLByCode(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateURL(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8000")
 	w.Header().Set("Content-Type", "application/json")
 	var url models.URL
 	_ = json.NewDecoder(r.Body).Decode(&url)
@@ -80,6 +83,10 @@ func CreateURL(w http.ResponseWriter, r *http.Request) {
 
 	// Unique link check
 	urlFromLink, err := url.FindURLByLink(url.Link)
+	if err != nil {
+		http.Error(w, http.StatusText(400), http.StatusBadRequest)
+		return
+	}
 	if (*urlFromLink != models.URL{}) {
 		json.NewEncoder(w).Encode(urlFromLink)
 		return
