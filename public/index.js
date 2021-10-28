@@ -1,24 +1,5 @@
-const apiBaseUrl = 'http://127.0.0.1:8000';
-
-const urlParams = new URLSearchParams(window.location.search);
-const myParam = urlParams.get('q');
-
-if (myParam) {
-    redirect(myParam);
-}
-getShortens();
-
-function redirect(code) {
-    const url = apiBaseUrl + '/api/urls/' + code;
-
-    fetch(url, { method: 'GET' })
-        .then(response => response.json())
-        .then(json => {
-            if (json.link) {
-                window.location.href = json.link;
-            }
-        });
-}
+const apiBaseUrl = 'http://localhost:8000';
+getUrls();
 
 function generateTableHead(table, data) {
     let thead = table.createTHead();
@@ -42,22 +23,20 @@ function generateTable(table, data) {
     }
 }
 
-function sendLink() {
+async function postUrl() {
     const link = document.getElementById('link').value;
     const bodyObj = {
         "link": link
     };
 
-    fetch(apiBaseUrl + '/api/urls', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify(bodyObj),
+    await fetch(apiBaseUrl + '/urls/', {
         headers: {
-            'Content-type': 'application/json;'
-        }
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(bodyObj),
     })
         .then(response => {
-            console.log(response);
             response.json();
         })
         .then(json => {
@@ -65,8 +44,8 @@ function sendLink() {
         });
 }
 
-function getShortens() {
-    fetch(apiBaseUrl + '/api/urls')
+function getUrls() {
+    fetch(apiBaseUrl + '/urls')
         .then(response => response.json())
         .then(json => {
             let table = document.querySelector("table");

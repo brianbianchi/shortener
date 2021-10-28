@@ -1,41 +1,15 @@
-# shortener
+> API that generates a shorter, more shareable link.
 
-API that generates a shorter, more shareable link.
+## API
 
-## `GET` /api/redirect/{code}
+| Endpoint      | Description                                               |
+| :------------ | :-------------------------------------------------------- |
+| GET `/`       | Returns static web interface form the `./public/` folder. |
+| GET `/{code}` | Redirects to the associated long URL.                     |
+| GET `/urls`   | Returns all long URLs and related short codes.            |
+| POST `/urls`  | Creates new short URL from a `link`.                      |
 
-Redirects to the associated long URL.
-
-## `GET` /api/urls
-
-Returns all long URLs and related short codes.
-
-Response
-
-```json
-[
-  {
-    "link": "https://www.w3schools.com/sql/sql_insert.asp",
-    "code": "abcdeF",
-    "created": "2004-10-19T10:23:54Z",
-    "visited": 1,
-    "last_visited": "2010-10-19T10:23:54Z"
-  },
-  {
-    "link": "http://youtube.com/",
-    "code": "BpLnfg",
-    "created": "2020-07-21T22:50:57.064527Z",
-    "visited": 0,
-    "last_visited": "2020-07-21T22:50:57.064528Z"
-  }
-]
-```
-
-## `GET` /api/urls/{code}
-
-Returns all information related to a short code.
-
-Response:
+## `URL` model
 
 ```json
 {
@@ -44,30 +18,6 @@ Response:
   "created": "2004-10-19T10:23:54Z",
   "visited": 1,
   "last_visited": "2010-10-19T10:23:54Z"
-}
-```
-
-## `POST` /api/urls
-
-Creates new short URL.
-
-Body
-
-```json
-{
-  "link": "http://youtube.com/ppoyijortujyio/khfdjhalkjfhlgskl?playback=20s"
-}
-```
-
-Response
-
-```json
-{
-  "link": "http://youtube.com/ppoyijortujyio/khfdjhalkjfhlgskl?playback=20s",
-  "code": "jjJkwz",
-  "created": "2020-12-17T17:16:20.506812Z",
-  "visited": 0,
-  "last_visited": "2020-12-17T17:16:20.506812Z"
 }
 ```
 
@@ -87,3 +37,8 @@ $ postgres=>  \l // list dbs
 $ postgres=> \connect shortener
 $ shortener=> \dl // list tables
 ```
+
+## TODO
+
+- tests
+- copy short url after posting link
