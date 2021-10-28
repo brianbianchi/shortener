@@ -228,7 +228,7 @@ func UrlHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// RandSeq creates a random sequence of characters for the URL code
+// Creates a random sequence of characters for the URL code
 func RandSeq(n int) string {
 	b := make([]rune, n)
 	for i := range b {
@@ -237,7 +237,7 @@ func RandSeq(n int) string {
 	return string(b)
 }
 
-// IsURL validates a URL object
+// Validates that a string has a URL structure
 func IsURL(str string) bool {
 	u, err := url.Parse(str)
 	return err == nil && u.Scheme != "" && u.Host != ""

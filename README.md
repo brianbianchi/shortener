@@ -42,3 +42,8 @@ $ shortener=> \dl // list tables
 
 - tests
 - copy short url after posting link
+- display post error
+- refresh url list when new posted
+- list urls by most visited, 10 at a time, fixed table cell width
+- html font
+- URL model docs
