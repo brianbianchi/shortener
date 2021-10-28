@@ -45,7 +45,7 @@ async function postUrl() {
 }
 
 function getUrls() {
-    fetch(apiBaseUrl + '/urls')
+    fetch(apiBaseUrl + '/urls/')
         .then(response => response.json())
         .then(json => {
             let table = document.querySelector("table");

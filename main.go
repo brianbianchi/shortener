@@ -78,7 +78,7 @@ func FindAllURLs() (*[]URL, error) {
 func FindURLByCode(code string) (*URL, error) {
 	rows, err := db.Query("SELECT * FROM urls WHERE code = $1", code)
 	if err != nil {
-		return &URL{}, err
+		return nil, err
 	}
 	defer rows.Close()
 
@@ -87,12 +87,12 @@ func FindURLByCode(code string) (*URL, error) {
 	for rows.Next() {
 		err := rows.Scan(&url.Link, &url.Code, &url.Created, &url.Visited, &url.LastVisited)
 		if err != nil {
-			return &URL{}, err
+			return nil, err
 		}
 	}
 
 	if err = rows.Err(); err != nil {
-		return &URL{}, err
+		return nil, err
 	}
 	return &url, nil
 }
@@ -100,7 +100,7 @@ func FindURLByCode(code string) (*URL, error) {
 func FindURLByLink(link string) (*URL, error) {
 	rows, err := db.Query("SELECT * FROM urls WHERE link = $1", link)
 	if err != nil {
-		return &URL{}, err
+		return nil, err
 	}
 	defer rows.Close()
 
@@ -109,12 +109,12 @@ func FindURLByLink(link string) (*URL, error) {
 	for rows.Next() {
 		err := rows.Scan(&url.Link, &url.Code, &url.Created, &url.Visited, &url.LastVisited)
 		if err != nil {
-			return &URL{}, err
+			return nil, err
 		}
 	}
 
 	if err = rows.Err(); err != nil {
-		return &URL{}, err
+		return nil, err
 	}
 	return &url, nil
 }
@@ -123,7 +123,7 @@ func CreateURL(url URL) (*URL, error) {
 	rows, err := db.Query(`INSERT INTO urls (link, code, created, visited, last_visited) VALUES ($1, $2, $3, $4, $5)`,
 		url.Link, url.Code, url.Created, url.Visited, url.LastVisited)
 	if err != nil {
-		return &URL{}, err
+		return nil, err
 	}
 	defer rows.Close()
 
