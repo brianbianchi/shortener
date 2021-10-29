@@ -70,7 +70,7 @@ func FindAllURLs() (*[]URL, error) {
 	}
 
 	if err = rows.Err(); err != nil {
-		return &[]URL{}, err
+		return nil, err
 	}
 	return &urls, nil
 }
