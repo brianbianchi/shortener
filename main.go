@@ -24,9 +24,19 @@ type URL struct {
 	LastVisited time.Time `json:"last_visited"`
 }
 
-type APIError struct {
+type APIResponseError struct {
 	Status  int
 	Message string
+}
+
+type APIResponseUrl struct {
+	Status int
+	Url    URL
+}
+
+type APIResponseUrls struct {
+	Status int
+	Urls   []URL
 }
 
 var (
@@ -52,8 +62,9 @@ func DbInit() *sql.DB {
 }
 
 func FindAllURLs() (*[]URL, error) {
-	rows, err := db.Query("SELECT * FROM urls")
+	rows, err := db.Query("SELECT * FROM urls ORDER BY last_visited DESC LIMIT 20")
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -151,11 +162,19 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 	if key != "" {
 		urlReceived, err := FindURLByCode(key)
 		if (*urlReceived == URL{}) {
-			http.Error(w, http.StatusText(404), http.StatusNotFound)
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(APIResponseError{
+				Status:  http.StatusNotFound,
+				Message: fmt.Sprintf("Url with code %s not found.", key),
+			})
 			return
 		}
 		if err != nil {
-			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(APIResponseError{
+				Status:  http.StatusInternalServerError,
+				Message: "Server error.",
+			})
 			return
 		}
 
@@ -163,7 +182,11 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 		urlReceived.LastVisited = time.Now()
 		err = IncrementURLVisitCount(urlReceived)
 		if err != nil {
-			http.Error(w, http.StatusText(500), http.StatusSeeOther)
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(APIResponseError{
+				Status:  http.StatusInternalServerError,
+				Message: "Server error. Failed to increment visited count.",
+			})
 			return
 		}
 		http.Redirect(w, r, urlReceived.Link, http.StatusFound)
@@ -183,25 +206,29 @@ func UrlHandler(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		urls, err := FindAllURLs()
 		if err != nil {
-			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(APIResponseError{
+				Status:  http.StatusInternalServerError,
+				Message: "Server error. Unable to find URLs.",
+			})
 			return
 		}
-		w.WriteHeader(201)
-		json.NewEncoder(w).Encode(urls)
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(APIResponseUrls{Status: http.StatusOK, Urls: *urls})
 	case "POST":
 		var url URL
 		_ = json.NewDecoder(r.Body).Decode(&url)
 
 		if !IsURL(url.Link) {
 			w.WriteHeader(http.StatusBadRequest)
-			json.NewEncoder(w).Encode(APIError{Status: http.StatusBadRequest, Message: "Url is not a link."})
+			json.NewEncoder(w).Encode(APIResponseError{Status: http.StatusBadRequest, Message: "Url is not a link."})
 			return
 		}
 
 		existingUrl, _ := FindURLByLink(url.Link)
 		if (*existingUrl != URL{}) {
 			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(existingUrl)
+			json.NewEncoder(w).Encode(APIResponseUrl{Status: http.StatusOK, Url: *existingUrl})
 			return
 		}
 
@@ -219,12 +246,19 @@ func UrlHandler(w http.ResponseWriter, r *http.Request) {
 
 		urlCreated, err := CreateURL(url)
 		if err != nil {
-			http.Error(w, http.StatusText(500), http.StatusInternalServerError)
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(APIResponseError{
+				Status:  http.StatusInternalServerError,
+				Message: "Server error. Failed to create URL.",
+			})
 			return
 		}
 
 		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(urlCreated)
+		json.NewEncoder(w).Encode(APIResponseUrl{
+			Status: http.StatusCreated,
+			Url:    *urlCreated,
+		})
 	}
 }
 

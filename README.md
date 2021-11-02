@@ -11,13 +11,13 @@
 
 ## `URL` model
 
-| Property       | Type      | Example                                          | Description                                                                  |
-| :------------- | :-------- | :----------------------------------------------- | :--------------------------------------------------------------------------- |
-| `link`         | `String`  | `"https://www.w3schools.com/sql/sql_insert.asp"` | Long URL the user wants to redirect to.                                      |
-| `code`         | `String`  | `"abcdeF"`                                       | Server generated, 6-digit, short code used in the short URL. `[a-z,A-Z,0-9]` |
-| `created`      | `Date`    | `2004-10-19T10:23:54Z`                           | Date the short URL was created.                                              |
-| `visited`      | `Integer` | `24`                                             | Number of times the short URL was visited.                                   |
-| `last_visited` | `Date`    | `"2010-10-19T10:23:54Z"`                         | Date the short URL was last visited.                                         |
+| Property       | Type      | Example                        | Description                                                                  |
+| :------------- | :-------- | :----------------------------- | :--------------------------------------------------------------------------- |
+| `link`         | `String`  | `"https://www.w3schools.com/"` | Long URL the user wants to redirect to.                                      |
+| `code`         | `String`  | `"abcdeF"`                     | Server generated, 6-digit, short code used in the short URL. `[a-z,A-Z,0-9]` |
+| `created`      | `Date`    | `2004-10-19T10:23:54Z`         | Date the short URL was created.                                              |
+| `visited`      | `Integer` | `24`                           | Number of times the short URL was visited.                                   |
+| `last_visited` | `Date`    | `"2010-10-19T10:23:54Z"`       | Date the short URL was last visited.                                         |
 
 ## Local setup
 
@@ -40,7 +40,3 @@ $ shortener=> \dl // list tables
 
 - tests
 - copy short url after posting link
-- display post error
-- refresh url list when new posted
-- list urls by most visited, 10 at a time, fixed table cell width
-- html font
