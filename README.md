@@ -5,7 +5,7 @@
 | Request method | Endpoint  | Description                                               |
 | :------------- | :-------- | :-------------------------------------------------------- |
 | GET            | `/`       | Returns static web interface from the `./public/` folder. |
-| GET            | `/{code}` | Redirects to the associated long URL.                     |
+| GET            | `/{code}` | Redirects to the associated link.                         |
 | GET            | `/urls/`  | Returns all long URLs and related short codes.            |
 | POST           | `/urls/`  | Creates new short URL from a `link`.                      |
 
@@ -24,17 +24,18 @@
 ```console
 $ brew install postgresql
 $ psql postgres
-$ postgres=#  CREATE ROLE app_user WITH LOGIN PASSWORD 'pw';
-$ postgres=#  ALTER ROLE app_user CREATEDB;
-$ postgres=#  \du // list users
-$ psql postgres -U app_user
+$ postgres=>  CREATE ROLE app_user WITH LOGIN PASSWORD 'pw';
+$ postgres=>  ALTER ROLE app_user CREATEDB;
+$ postgres=>  \du  #list users
+$ psql postgres -U app_user #enter as app_user
 $ postgres=> CREATE DATABASE shortener;
-$ postgres=>  \l // list dbs
-
-
+$ postgres=>  \l #list dbs
+$ ...
 $ postgres=> \connect shortener
-$ shortener=> \dl // list tables
+$ shortener=> \dl #list tables
 ```
+
+> You can use the queries in `./sql/db.sql` to build the database with sample data.
 
 ## TODO
 
