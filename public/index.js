@@ -46,8 +46,10 @@ async function postUrl() {
                 return;
             }
             document.getElementById('link').value = "";
+            document.getElementById('error').innerHTML = "";
             const url = apiBaseUrl + '/' + json.Url.code;
-            document.getElementById('msg').innerHTML = "<a href='" + url + "'>" + json.Url.link + "</a>";
+            document.getElementById('msg').innerHTML =
+                `<a href='${url}'>${json.Url.link}</a> <button onclick="toClipboard('${url}')">Copy shortened URL</button>`;
             if (json.Status === 201) {
                 let table = document.querySelector("table");
                 let row = table.insertRow(1);
@@ -76,4 +78,8 @@ function getUrls() {
             generateTableHead(table, data);
             generateTable(table, json.Urls);
         });
+}
+
+function toClipboard(str) {
+    navigator.clipboard.writeText(str);
 }

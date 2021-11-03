@@ -40,4 +40,3 @@ $ shortener=> \dl #list tables
 ## TODO
 
 - tests
-- copy short url after posting link
