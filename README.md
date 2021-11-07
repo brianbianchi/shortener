@@ -5,8 +5,8 @@
 | Request method | Endpoint  | Description                                               |
 | :------------- | :-------- | :-------------------------------------------------------- |
 | GET            | `/`       | Returns static web interface from the `./public/` folder. |
-| GET            | `/{code}` | Redirects to the associated link.                         |
-| GET            | `/urls/`  | Returns all long URLs and related short codes.            |
+| GET            | `/{code}` | Redirects to the associated `link`.                       |
+| GET            | `/urls/`  | Returns top 20 `URL` objects ordered by last visited.     |
 | POST           | `/urls/`  | Creates new short URL from a `link`.                      |
 
 ## `URL` model
@@ -33,6 +33,8 @@ $ postgres=>  \l #list dbs
 $ ...
 $ postgres=> \connect shortener
 $ shortener=> \dl #list tables
+$ ...
+$ go run src/*.go #run server
 ```
 
 > You can use the queries in `./sql/db.sql` to build the database with sample data.
