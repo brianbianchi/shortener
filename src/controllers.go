@@ -28,13 +28,11 @@ type APIResponseUrls struct {
 
 func RootHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:8000")
-	w.Header().Set("Content-Type", "application/json")
 	key := strings.TrimPrefix(r.URL.Path, "/")
 
-	// Redirect
 	if key != "" {
 		urlReceived, err := FindURLByCode(key)
-		if (*urlReceived == URL{}) {
+		if urlReceived == nil {
 			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode(APIResponseError{
 				Status:  http.StatusNotFound,
@@ -53,6 +51,7 @@ func RootHandler(w http.ResponseWriter, r *http.Request) {
 
 		urlReceived.Visited++
 		urlReceived.LastVisited = time.Now()
+
 		err = IncrementURLVisitCount(urlReceived)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
