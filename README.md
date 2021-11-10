@@ -1,5 +1,17 @@
 > API that generates a shorter, more shareable link.
 
+Purpose for using a URL shortening service:
+
+- "beautify" a link
+- track clicks
+- disguise the underlying address
+
+Cons of using a URL shortening service:
+
+- although disguising of the underlying address may be desired for legitimate business or personal reasons, it is open to abuse
+- some URL shortening service providers are blacklisted or considered to be spam
+- some websites prevent short, redirected URLs from being posted
+
 ## API
 
 | Request method | Endpoint  | Description                                               |
@@ -38,7 +50,3 @@ $ go run src/*.go #run server
 ```
 
 > You can use the queries in `./sql/db.sql` to build the database with sample data.
-
-## TODO
-
-- tests
