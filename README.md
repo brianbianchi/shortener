@@ -7,7 +7,7 @@
 | GET            | `/`       | Returns static web interface from the `./public/` folder. |
 | GET            | `/{code}` | Redirects to the associated `link`.                       |
 | GET            | `/urls/`  | Returns top 20 `URL` objects ordered by last visited.     |
-| POST           | `/urls/`  | Creates new short URL from a `link`.                      |
+| POST           | `/urls/`  | Creates a new `URL` from a `link`.                        |
 
 ## `URL` model
 
@@ -28,10 +28,10 @@ $ postgres=>  CREATE ROLE app_user WITH LOGIN PASSWORD 'pw';
 $ postgres=>  ALTER ROLE app_user CREATEDB;
 $ postgres=>  \du  #list users
 $ psql postgres -U app_user #enter as app_user
-$ postgres=> CREATE DATABASE shortener;
+$ postgres=> CREATE DATABASE shorten;
 $ postgres=>  \l #list dbs
 $ ...
-$ postgres=> \connect shortener
+$ postgres=> \connect shorten
 $ shortener=> \dl #list tables
 $ ...
 $ go run src/*.go #run server
