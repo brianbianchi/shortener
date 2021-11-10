@@ -14,12 +14,12 @@ Cons of using a URL shortening service:
 
 ## API
 
-| Request method | Endpoint  | Description                                               |
-| :------------- | :-------- | :-------------------------------------------------------- |
-| GET            | `/`       | Returns static web interface from the `./public/` folder. |
-| GET            | `/{code}` | Redirects to the associated `link`.                       |
-| GET            | `/urls/`  | Returns top 20 `URL` objects ordered by last visited.     |
-| POST           | `/urls/`  | Creates a new `URL` from a `link`.                        |
+| Request method | Endpoint  | Description                                                   |
+| :------------- | :-------- | :------------------------------------------------------------ |
+| GET            | `/`       | Returns the static web interface from the `./public/` folder. |
+| GET            | `/{code}` | Redirects to the associated `link`.                           |
+| GET            | `/urls/`  | Returns top 20 `URL` objects, ordered by last visited.        |
+| POST           | `/urls/`  | Creates a new `URL` from a `link`.                            |
 
 ## `URL` model
 
