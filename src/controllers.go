@@ -89,7 +89,13 @@ func UrlHandler(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(APIResponseUrls{Status: http.StatusOK, Urls: *urls})
 	case "POST":
 		var url URL
-		_ = json.NewDecoder(r.Body).Decode(&url)
+
+		err := json.NewDecoder(r.Body).Decode(&url)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(APIResponseError{Status: http.StatusBadRequest, Message: "Can't decode request body."})
+			return
+		}
 
 		if !IsURL(url.Link) {
 			w.WriteHeader(http.StatusBadRequest)
@@ -97,8 +103,13 @@ func UrlHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		existingUrl, _ := FindURLByLink(url.Link)
-		if (*existingUrl != URL{}) {
+		existingUrl, err := FindURLByLink(url.Link)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(APIResponseError{Status: http.StatusInternalServerError, Message: "Something went wrong."})
+			return
+		}
+		if existingUrl != nil && (*existingUrl != URL{}) {
 			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(APIResponseUrl{Status: http.StatusOK, Url: *existingUrl})
 			return
@@ -106,8 +117,8 @@ func UrlHandler(w http.ResponseWriter, r *http.Request) {
 
 		for {
 			url.Code = RandSeq(6)
-			urlFromCode, _ := FindURLByCode(url.Code)
-			if (*urlFromCode == URL{}) {
+			urlFromCode, err := FindURLByCode(url.Code)
+			if err == nil && (*urlFromCode == URL{}) {
 				break
 			}
 		}

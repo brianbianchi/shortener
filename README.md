@@ -46,7 +46,7 @@ $ ...
 $ postgres=> \connect shorten
 $ shortener=> \dl #list tables
 $ ...
-$ go run src/*.go #run server
+$ go run $(ls -1 src/*.go | grep -v _test.go) #run server
 ```
 
 > You can use the queries in `./sql/db.sql` to build the database with sample data.

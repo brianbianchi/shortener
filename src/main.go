@@ -4,8 +4,10 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"time"
 
 	_ "github.com/lib/pq"
 )
@@ -15,6 +17,7 @@ var (
 )
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 	db = InitDb()
 
 	http.HandleFunc("/", RootHandler)
