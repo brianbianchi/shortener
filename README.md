@@ -1,4 +1,4 @@
-> API that generates a shorter, more shareable link.
+# URL shortening service
 
 Purpose for using a URL shortening service:
 
@@ -12,41 +12,19 @@ Cons of using a URL shortening service:
 - some URL shortening service providers are blacklisted or considered to be spam
 - some websites prevent short, redirected URLs from being posted
 
-## API
-
-| Request method | Endpoint  | Description                                                   |
-| :------------- | :-------- | :------------------------------------------------------------ |
-| GET            | `/`       | Returns the static web interface from the `./public/` folder. |
-| GET            | `/{code}` | Redirects to the associated `link`.                           |
-| GET            | `/urls/`  | Returns top 20 `URL` objects, ordered by last visited.        |
-| POST           | `/urls/`  | Creates a new `URL` from a `link`.                            |
-
-## `URL` model
+## `URL` schema
 
 | Property       | Type      | Example                        | Description                                                                  |
 | :------------- | :-------- | :----------------------------- | :--------------------------------------------------------------------------- |
 | `link`         | `String`  | `"https://www.w3schools.com/"` | Long URL the user wants to redirect to.                                      |
 | `code`         | `String`  | `"abcdeF"`                     | Server generated, 6-digit, short code used in the short URL. `[a-z,A-Z,0-9]` |
-| `created`      | `Date`    | `2004-10-19T10:23:54Z`         | Date the short URL was created.                                              |
+| `created`      | `String`    | `2004-10-19T10:23:54Z`         | Date the short URL was created.                                              |
 | `visited`      | `Integer` | `24`                           | Number of times the short URL was visited.                                   |
-| `last_visited` | `Date`    | `"2010-10-19T10:23:54Z"`       | Date the short URL was last visited.                                         |
+| `last_visited` | `String`    | `"2010-10-19T10:23:54Z"`       | Date the short URL was last visited.                                         |
 
 ## Local setup
-
+1. 
 ```console
-$ brew install postgresql
-$ psql postgres
-$ postgres=>  CREATE ROLE app_user WITH LOGIN PASSWORD 'pw';
-$ postgres=>  ALTER ROLE app_user CREATEDB;
-$ postgres=>  \du  #list users
-$ psql postgres -U app_user #enter as app_user
-$ postgres=> CREATE DATABASE shorten;
-$ postgres=>  \l #list dbs
-$ ...
-$ postgres=> \connect shorten
-$ shortener=> \dl #list tables
-$ ...
-$ go run $(ls -1 src/*.go | grep -v _test.go) #run server
+make
 ```
-
-> You can use the queries in `./sql/db.sql` to build the database with sample data.
+2. Navigate to `http://localhost:3000`

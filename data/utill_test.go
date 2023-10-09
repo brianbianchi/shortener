@@ -1,9 +1,7 @@
-package main
+package data
 
 import (
 	"testing"
-
-	_ "github.com/lib/pq"
 )
 
 func TestRandSeq(t *testing.T) {
