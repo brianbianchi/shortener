@@ -5,10 +5,10 @@ import (
 )
 
 func TestRandSeq(t *testing.T) {
-	seqLen := 6
-	result := RandSeq(6)
-	if len(result) != seqLen {
-		t.Fatalf(`RandSeq(%d) returned %s, which is not %d characters long.`, seqLen, result, seqLen)
+	n := 6
+	result := RandSeq(n)
+	if len(result) != n {
+		t.Fatalf(`RandSeq(%d) returned %s, which is not %d characters long.`, n, result, n)
 	}
 }
 

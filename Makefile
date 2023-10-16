@@ -12,4 +12,4 @@ clean:
 	rm -rf bin
 
 test:
-	go test github.com/brianbianchi/shortener/data
+	go test ./...
