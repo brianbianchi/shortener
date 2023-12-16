@@ -1,15 +1,14 @@
 # URL shortening service
 
-Purpose for using a URL shortening service:
-
+## Purpose
 - "beautify" a link
 - track clicks
 - disguise the underlying address
 
-Cons of using a URL shortening service:
+## Cons
 
-- although disguising of the underlying address may be desired for legitimate business or personal reasons, it is open to abuse
-- some URL shortening service providers are blacklisted or considered to be spam
+- disguised link could be malicious
+- some shortening service providers are blacklisted or considered to be spam
 - some websites prevent short, redirected URLs from being posted
 
 ## `URL` schema
@@ -21,10 +20,3 @@ Cons of using a URL shortening service:
 | `created`      | `String`    | `"2004-10-19T10:23:54Z"`         | Date the short URL was created.                                              |
 | `visited`      | `Integer` | `24`                           | Number of times the short URL was visited.                                   |
 | `last_visited` | `String`    | `"2010-10-19T10:23:54Z"`       | Date the short URL was last visited.                                         |
-
-## Local setup
-1. 
-```console
-make
-```
-2. Navigate to `http://localhost:3000`
